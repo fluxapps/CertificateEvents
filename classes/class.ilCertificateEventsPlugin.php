@@ -6,6 +6,7 @@ require_once('./Services/Tracking/classes/class.ilLPCollections.php');
 require_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 require_once("./Services/Tracking/classes/class.ilTrQuery.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
+require_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 
 
 /**
@@ -34,6 +35,11 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
                 $ref_ids = array_values($ref_ids);
                 if (count($ref_ids)) {
                     $ref_id = $ref_ids[0];
+                    // Only generate certificate if user is participant of course!!
+                    // Note: This is a workaround for an ILIAS feature/bug: A user can pass a course without being a member
+                    if (!ilCourseParticipants::_isParticipant($ref_id, $user_id)) {
+                        return;
+                    }
                     /** @var srCertificateDefinition $definition */
                     $definition = srCertificateDefinition::where(array('ref_id' => $ref_id))->first();
                     if (!is_null($definition)) {
