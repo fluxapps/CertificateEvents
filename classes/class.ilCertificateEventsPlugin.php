@@ -2,7 +2,10 @@
 require_once('./Services/EventHandling/classes/class.ilEventHookPlugin.php');
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-require_once('./Services/Tracking/classes/class.ilLPCollections.php');
+// Needed for 4.3 not needed for 4.4+
+if (is_file('./Services/Tracking/classes/class.ilLPCollections.php')) {
+	require_once('./Services/Tracking/classes/class.ilLPCollections.php');
+}
 require_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 require_once("./Services/Tracking/classes/class.ilTrQuery.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
