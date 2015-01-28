@@ -108,6 +108,10 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
             }
         }
 
+        if (!is_file('./Services/Tracking/classes/class.ilLPCollections.php')) {
+            return true;
+        }
+
         // If objects determine the learning progress, make sure at least one object is marked as relevant
         $lp_settings = new ilLPObjSettings($obj_id);
         if ($lp_settings->getMode() != LP_MODE_COLLECTION) {
