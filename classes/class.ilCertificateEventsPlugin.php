@@ -38,11 +38,12 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
                 $ref_ids = array_values($ref_ids);
                 if (count($ref_ids)) {
                     $ref_id = $ref_ids[0];
-                    // Only generate certificate if user is participant of course!!
-                    // Note: This is a workaround for an ILIAS feature/bug: A user can pass a course without being a member
-                    if (!ilCourseParticipants::_isParticipant($ref_id, $user_id)) {
+
+                    // Only generate certificate object if the pre-conditions are met
+                    if (!$this->checkPreconditions($ref_id, $obj_id, $user_id)) {
                         return;
                     }
+
                     /** @var srCertificateDefinition $definition */
                     $definition = srCertificateDefinition::where(array('ref_id' => $ref_id))->first();
                     if (!is_null($definition)) {
@@ -52,11 +53,6 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
                             $cert->setUserId($user_id);
                             $cert->setDefinition($definition);
                             $cert->create();
-                            // Display info message for user if certificate is downloadable and the current user is equal to the certificate user
-//                            /** @var $ilUser ilObjUser */
-//                            if ($ilUser->getId() == $user_id && $definition->getDownloadable()) {
-//                                ilUtil::sendInfo('A certificate was generated. Within a few minutes, you can download it on the "Personal Desktop"', true);
-//                            }
                         }
                     }
                 }
@@ -78,6 +74,56 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
             }
         }
 
+    }
+
+
+    /**
+     * Check if a certificate object can be generated
+     *
+     * @param int $ref_id
+     * @param int $obj_id
+     * @param int $user_id
+     * @return bool
+     */
+    protected function checkPreconditions($ref_id, $obj_id, $user_id)
+    {
+        // Only generate certificate if user is participant of course!!
+        // Note: This is a workaround for an ILIAS feature/bug: A user can pass a course without being a member
+        if (!ilCourseParticipants::_isParticipant($ref_id, $user_id)) {
+            return false;
+        }
+
+        $course = new ilObjCourse($ref_id);
+
+        // Check that course is not offline or outside of the activation period
+        if ($course->getOfflineStatus()) {
+            // Course is offline, check if we are inside the period where the course is available
+            if ($course->getActivationUnlimitedStatus()) {
+                // Course is unlimited available and offline, return
+                return false;
+            } else {
+                if (time() < $course->getActivationStart() || time() > $course->getActivationEnd()) {
+                    return false;
+                }
+            }
+        }
+
+        // If objects determine the learning progress, make sure at least one object is marked as relevant
+        $lp_settings = new ilLPObjSettings($obj_id);
+        if ($lp_settings->getMode() != LP_MODE_COLLECTION) {
+            return true;
+        }
+
+        // Loop objects, as soon as we find one that determines the learning progress, we can return true
+        $collections = new ilLPCollections($obj_id);
+        $items = ilLPCollections::_getPossibleItems($ref_id, $collections);
+        foreach ($items as $item) {
+            if ($collections->isAssigned($item)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
