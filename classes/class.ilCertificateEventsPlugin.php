@@ -96,17 +96,21 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
         $course = new ilObjCourse($ref_id);
 
         // Check that course is not offline or outside of the activation period
-        if ($course->getOfflineStatus()) {
-            // Course is offline, check if we are inside the period where the course is available
-            if ($course->getActivationUnlimitedStatus()) {
-                // Course is unlimited available and offline, return
-                return false;
-            } else {
-                if (time() < $course->getActivationStart() || time() > $course->getActivationEnd()) {
-                    return false;
-                }
-            }
+        if (!$course->isActivated()) {
+            return false;
         }
+
+//        if ($course->getOfflineStatus()) {
+//            // Course is offline, check if we are inside the period where the course is available
+//            if ($course->getActivationUnlimitedStatus()) {
+//                // Course is unlimited available and offline, return
+//                return false;
+//            } else {
+//                if (time() < $course->getActivationStart() || time() > $course->getActivationEnd()) {
+//                    return false;
+//                }
+//            }
+//        }
 
         if (!is_file('./Services/Tracking/classes/class.ilLPCollections.php')) {
             return true;
