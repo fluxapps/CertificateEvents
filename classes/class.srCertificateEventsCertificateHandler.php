@@ -8,6 +8,7 @@ require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHoo
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateUserNotification.php');
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateCallBackNotification.php');
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateNoWritePermissionNotification.php');
+require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateFailedNotification.php');
 
 /**
  * Class srCertificateEventsCertificateHandler
@@ -121,6 +122,10 @@ class srCertificateEventsCertificateHandler
                     $notification = new srCertificateNoWritePermissionNotification($this->certificate);
                     $notification->notify();
                     $this->log->write("Failed to generate certificate with ID {$this->certificate->getId()}; Certificate data directory is not writable.");
+                } else {
+                    $notification = new srCertificateFailedNotification($this->certificate);
+                    $notification->notify();
+                    $this->log->write("Failed to generate certificate with ID {$this->certificate->getId()}");
                 }
                 $this->checkDiskSpace(srCertificate::STATUS_FAILED);
                 break;
