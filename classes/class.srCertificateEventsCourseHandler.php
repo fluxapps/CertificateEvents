@@ -78,10 +78,19 @@ class srCertificateEventsCourseHandler
         }
         // Only create certificate if the generation setting of type is set to AUTO
         if ($definition->getGeneration() == srCertificateTypeSetting::GENERATION_AUTO) {
-            $cert = new srCertificate();
-            $cert->setUserId((int) $params['usr_id']);
-            $cert->setDefinition($definition);
-            $cert->create();
+        	// and if there are no active certificates
+	        $cert = srCertificate::where(array(
+		        'active' => 1,
+		        'user_id' => (int) $params['usr_id']
+	        ))->first();
+
+	        if (!$cert) {
+		        $cert = new srCertificate();
+		        $cert->setUserId((int) $params['usr_id']);
+		        $cert->setDefinition($definition);
+		        $cert->create();
+	        }
+
         }
     }
 
