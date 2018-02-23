@@ -81,7 +81,8 @@ class srCertificateEventsCourseHandler
         	// and if there are no active certificates
 	        $cert = srCertificate::where(array(
 		        'active' => 1,
-		        'user_id' => (int) $params['usr_id']
+		        'user_id' => (int) $params['usr_id'],
+		        'definition_id' => $definition->getId(),
 	        ))->first();
 
 	        if (!$cert) {
