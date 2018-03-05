@@ -39,11 +39,11 @@ class srCertificateEventsCertificateHandler
      */
     public function __construct(srCertificate $certificate)
     {
-        global $ilLog;
+        global $DIC;
 
         $this->certificate = $certificate;
         $this->pl = ilCertificatePlugin::getInstance();
-        $this->log = $ilLog;
+        $this->log = $DIC["ilLog"];
     }
 
 
