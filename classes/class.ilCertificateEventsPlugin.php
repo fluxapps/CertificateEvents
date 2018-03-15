@@ -10,6 +10,10 @@ require_once __DIR__ . '/../../../../UIComponent/UserInterfaceHook/Certificate/v
  */
 class ilCertificateEventsPlugin extends ilEventHookPlugin {
 
+	const PLUGIN_NAME = 'CertificateEvents';
+	const PLUGIN_ID = 'cert_events';
+
+
 	/**
 	 * @param string $component
 	 * @param string $event
@@ -50,7 +54,7 @@ class ilCertificateEventsPlugin extends ilEventHookPlugin {
 	 * @return    string    Plugin Name
 	 */
 	function getPluginName() {
-		return "CertificateEvents";
+		return self::PLUGIN_NAME;
 	}
 
 
