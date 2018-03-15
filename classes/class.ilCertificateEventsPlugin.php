@@ -1,9 +1,6 @@
 <?php
-require_once('./Services/EventHandling/classes/class.ilEventHookPlugin.php');
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-require_once(__DIR__ . '/class.srCertificateEventsCourseHandler.php');
-require_once(__DIR__ . '/class.srCertificateEventsCertificateHandler.php');
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../../../UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
 
 /**
  * ilCertificateEventsPlugin
