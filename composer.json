@@ -1,8 +1,21 @@
 {
-  "name": "studer-raimann.ch/certificate-events",
-  "type": "project",
+  "name": "ssrag/plugins/certificateevents",
+  "description": "",
+  "version": "1.1.0",
+  "type": "library",
+  "keywords": [
+    "ILIAS",
+    "Plugin",
+    "Certificate"
+  ],
   "license": "GPL-3.0+",
   "authors": [
+    {
+      "name": "srag",
+      "email": "support@studer-raimann.ch",
+      "homepage": "https://studer-raimann.ch",
+      "role": "Developer"
+    },
     {
       "name": "Theodor Truffer",
       "email": "tt@studer-raimann.ch",
@@ -11,10 +24,8 @@
     }
   ],
   "support": {
-    "email": "info@studer-raimann.ch"
+    "email": "support@studer-raimann.ch"
   },
-  "minimum-stability": "beta",
-  "prefer-stable": true,
   "require": {
     "php": "^5.5.9 || ^7.0"
   },
