@@ -12,6 +12,12 @@ mkdir -p Customizing/global/plugins/Services/EventHandling/EventHook
 cd Customizing/global/plugins/Services/EventHandling/EventHook
 git clone https://github.com/studer-raimann/CertificateEvents.git
 ```
+
+### Dependencies
+* [composer](https://getcomposer.org)
+
+Please use it for further development!
+
 ### ILIAS Plugin SLA
 
 Wir lieben und leben die Philosophie von Open Soure Software! Die meisten unserer Entwicklungen, welche wir im Kundenauftrag oder in Eigenleistung entwickeln, stellen wir öffentlich allen Interessierten kostenlos unter https://github.com/studer-raimann zur Verfügung.
