@@ -17,6 +17,7 @@ git clone https://github.com/studer-raimann/CertificateEvents.git
 * ILIAS 5.2 or ILIAS 5.3
 * PHP >=5.6
 * [composer](https://getcomposer.org)
+* [Certificate](https://github.com/studer-raimann/Certificate)
 
 Please use it for further development!
 
