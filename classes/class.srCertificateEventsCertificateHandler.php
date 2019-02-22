@@ -44,11 +44,16 @@ class srCertificateEventsCertificateHandler {
 	}
 
 
-	/**
-	 * @param int $status
-	 */
+    /**
+     * @param int $status
+     * @throws srCertificateException
+     */
 	protected function checkDiskSpace($status) {
-		$free_space = disk_free_space($this->certificate->getCertificatePath());
+	    if (!is_dir($this->certificate->getCertificatePath())) {
+	        // if the dir was not created, free space is not the issue
+	        return;
+        }
+		$free_space = disk_free_space($this->certificate->getCertificatePath());    // TODO: this throws an exception when status = failed, because path doesn't exist
 		if ($status == srCertificate::STATUS_PROCESSED) {
 			//Send mail to administrator if the free space is below the configured value
 			$disk_space = (int)$this->pl->config('disk_space_warning');
@@ -64,7 +69,7 @@ class srCertificateEventsCertificateHandler {
 			if ($free_space < 1000) {
 				$notification = new srCertificateNoDiskSpaceNotification($this->certificate);
 				$notification->notify();
-				$this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->certificate->getId()}; Free disk space below 1MB.");
+			    throw new srCertificateException('Free disk space below 1MB');
 			}
 		}
 	}
@@ -106,7 +111,7 @@ class srCertificateEventsCertificateHandler {
 				if (!is_writable($this->certificate->getCertificatePath())) {
 					$notification = new srCertificateNoWritePermissionNotification($this->certificate);
 					$notification->notify();
-					$this->log->write("Failed to generate certificate with ID {$this->certificate->getId()}; Certificate data directory is not writable.");
+					$this->log->write("Failed to generate certificate with ID {$this->certificate->getId()}; Certificate data directory {$this->certificate->getCertificatePath()} is not writable.");
 				} else {
 					$notification = new srCertificateFailedNotification($this->certificate);
 					$notification->notify();
