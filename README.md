@@ -18,8 +18,6 @@ git clone https://github.com/studer-raimann/CertificateEvents.git
 * PHP >=5.6
 * [Certificate](https://github.com/studer-raimann/Certificate)
 
-Please use it for further development!
-
 ### Adjustment suggestions
 * Adjustment suggestions by pull requests
 * Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/PLCERTIFICATE
