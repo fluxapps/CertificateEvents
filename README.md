@@ -14,7 +14,7 @@ git clone https://github.com/studer-raimann/CertificateEvents.git
 ```
 
 ### Requirements
-* ILIAS 5.2 or ILIAS 5.3
+* ILIAS 5.3 or ILIAS 5.4
 * PHP >=5.6
 * [Certificate](https://github.com/studer-raimann/Certificate)
 
